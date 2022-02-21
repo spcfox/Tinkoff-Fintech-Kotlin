@@ -2,6 +2,9 @@ package ru.tinkoff.fintech.homework.lesson1
 
 import java.lang.Integer.min
 
+const val SM = "sm"
+const val M = "m"
+
 class Bamboo : Plant {
     private var humidity = 0
     private var height = 100
@@ -19,16 +22,13 @@ class Bamboo : Plant {
         }
     }
 
-    override fun status(): String = status(LengthUnits.SM)
+    override fun status(): String = status(SM)
 
-    fun status(units: LengthUnits): String = "Bamboo: humidity: $humidity%, height: ${getHeight(units)}${units.unitsName}"
+    fun status(units: String): String = "Bamboo: humidity: $humidity%, height: ${getHeight(units)}$units"
 
-    fun getHeight(units: LengthUnits) = when (units) {
-        LengthUnits.SM -> height
-        LengthUnits.M -> height / 100
-    }
-
-    enum class LengthUnits(val unitsName: String) {
-        SM("sm"), M("m")
+    private fun getHeight(units: String) = when (units) {
+        SM -> height
+        M -> height / 100
+        else -> throw IllegalArgumentException("Unsupported units '$units'")
     }
 }
