@@ -14,6 +14,11 @@ fun main() {
     println(bamboo.status(M))
     println(rose.cutRosebud())
     println(rose.status())
+    if (rose.isBloom) {
+        println("The rose is blooming")
+    } else {
+        println("The rose is not blooming")
+    }
 
     val garden = Garden(listOf(bamboo, rose, Rose()))
     garden.water()
