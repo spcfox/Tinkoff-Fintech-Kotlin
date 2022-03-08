@@ -12,7 +12,13 @@ class Bamboo : Plant {
     override fun water() = water(1)
 
     fun water(times: Int) {
-        humidity = min(100, humidity + 10 * times)
+        if (times <= 0) {
+            throw IllegalArgumentException("Times must be positive")
+        }
+        humidity = when {
+            times >= 10 -> 100
+            else -> min(100, humidity + 10 * times)
+        }
     }
 
     override fun grow() {

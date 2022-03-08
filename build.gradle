@@ -1,6 +1,5 @@
 plugins {
     id 'org.jetbrains.kotlin.jvm' version '1.6.10'
-    id 'application'
 }
 
 group 'org.example'
@@ -12,8 +11,17 @@ repositories {
 
 dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib"
+    implementation 'org.junit.jupiter:junit-jupiter:5.8.1'
+
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.8.2'
+    testImplementation 'org.junit.jupiter:junit-jupiter-engine:5.8.2'
+    testImplementation 'org.junit.jupiter:junit-jupiter-params:5.8.2'
+
+    testImplementation 'io.mockk:mockk:1.12.2'
 }
 
-application {
-    mainClass = 'ru.tinkoff.fintech.homework.lesson1.ApplicationKt'
+tasks {
+    test {
+        useJUnitPlatform()
+    }
 }

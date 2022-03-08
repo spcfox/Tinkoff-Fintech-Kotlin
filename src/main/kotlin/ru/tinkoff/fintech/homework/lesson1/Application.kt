@@ -20,7 +20,7 @@ fun main() {
         println("The rose is not blooming")
     }
 
-    val garden = Garden(listOf(bamboo, rose, Rose()))
+    val garden = Garden(bamboo, rose, Rose())
     garden.water()
     garden.grow()
     println(garden.status())

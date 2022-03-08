@@ -1,6 +1,8 @@
 package ru.tinkoff.fintech.homework.lesson1
 
 class Garden(private val plants: List<Plant>) {
+    constructor(vararg plants: Plant) : this(plants.toList())
+
     fun water() {
         plants.forEach { it.water() }
     }
