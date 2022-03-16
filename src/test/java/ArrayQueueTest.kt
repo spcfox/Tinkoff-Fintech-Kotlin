@@ -230,6 +230,34 @@ class ArrayQueueTest {
         )
     }
 
+    @Test
+    fun `правильный результат при чередовании добавлений и удалений`() {
+        val queue = ArrayQueue<Int>()
+
+        val result = ArrayList<Int>()
+        queue.offer(1)
+        queue.offer(2)
+        queue.offer(3)
+        result.add(queue.remove())
+        queue.offer(4)
+        queue.offer(5)
+        result.add(queue.remove())
+        result.add(queue.remove())
+        result.add(queue.remove())
+        queue.offer(6)
+        result.add(queue.remove())
+        result.add(queue.remove())
+
+        assertAll("очередь пустая и вернула изначальные элементы",
+            { assertEquals(0, queue.size) },
+            { assertEquals(true, queue.isEmpty) },
+            { assertEquals(6, result.size) },
+            { assertTrue(
+                listOf(1, 2, 3, 4, 5, 6).zip(result).all { (a, b) -> Objects.equals(a, b) }
+            ) }
+        )
+    }
+
     @ParameterizedTest
     @CsvSource("0", "1", "4", "16", "123", "1024")
     fun `корректная работа с различными стартовыми значениями capacity`(capacity: Int) {

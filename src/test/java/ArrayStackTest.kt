@@ -4,6 +4,7 @@ import org.junit.jupiter.api.TestInstance
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.CsvSource
 import org.junit.jupiter.params.provider.MethodSource
+import ru.tinkoff.fintech.homework.lesson4.ArrayQueue
 import java.util.stream.Stream
 
 import ru.tinkoff.fintech.homework.lesson4.ArrayStack
@@ -125,6 +126,34 @@ class ArrayStackTest {
             { assertEquals(items.size, result.size) },
             { assertTrue(
                 items.zip(result).all { (a, b) -> Objects.equals(a, b) }
+            ) }
+        )
+    }
+
+    @Test
+    fun `правильный результат при чередовании добавлений и удалений`() {
+        val stack = ArrayStack<Int>()
+
+        val result = ArrayList<Int>()
+        stack.push(1)
+        stack.push(2)
+        stack.push(3)
+        result.add(stack.pop())
+        stack.push(4)
+        stack.push(5)
+        result.add(stack.pop())
+        result.add(stack.pop())
+        result.add(stack.pop())
+        stack.push(6)
+        result.add(stack.pop())
+        result.add(stack.pop())
+
+        assertAll("стек пустой и вернул изначальные элементы",
+            { assertEquals(0, stack.size) },
+            { assertEquals(true, stack.isEmpty) },
+            { assertEquals(6, result.size) },
+            { assertTrue(
+                listOf(3, 5, 4, 2, 6, 1).zip(result).all { (a, b) -> Objects.equals(a, b) }
             ) }
         )
     }
