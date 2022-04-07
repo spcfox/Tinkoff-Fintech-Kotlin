@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.9.xsd"
+        objectQuotingStrategy="QUOTE_ONLY_RESERVED_WORDS">
+    <changeSet id="1" author="Viktor Yudov">
+        <createTable tableName="contacts">
+            <column name="contact_id" type="INT" autoIncrement="true">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="pk_contacts"/>
+            </column>
+            <column name="first_name" type="VARCHAR(255)"/>
+            <column name="last_name" type="VARCHAR(255)"/>
+            <column name="phone" type="VARCHAR(20)"/>
+        </createTable>
+    </changeSet>
+    <changeSet id="2" author="Viktor Yudov">
+        <sql>
+            insert into contacts (first_name, last_name, phone) values
+                ('Иван', 'Сергеев', '+79991234567'),
+                ('Ольга', 'Шемякина', '+79113442312'),
+                ('Сергей', 'Ландау', '+79591236812'),
+                ('Иван', 'Носков', '+79235321342'),
+                ('Афанасий', 'Беспалов', '+79194364845'),
+                ('Никита', 'Алексеев', '+7932504358'),
+                ('112', '', '112'),
+                ('Олег', 'Галкин', '+79750123712'),
+                ('Наталья', 'Алексеева', '+79012003765'),
+                ('Мария', 'Сергеева', '+79671243201'),
+                ('Заказ пиццы', '', '+78003020060');
+        </sql>
+    </changeSet>
+
+
+</databaseChangeLog>

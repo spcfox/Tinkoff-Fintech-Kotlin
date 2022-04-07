@@ -1,4 +1,4 @@
-package ru.tinkoff.fintech.homework.lesson6.configuration
+package ru.tinkoff.fintech.homework.lesson7.configuration
 
 import org.springframework.boot.web.client.RestTemplateBuilder
 import org.springframework.context.annotation.Bean

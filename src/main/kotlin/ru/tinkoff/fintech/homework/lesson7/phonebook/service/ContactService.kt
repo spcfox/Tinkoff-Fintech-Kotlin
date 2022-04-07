@@ -1,11 +1,11 @@
-package ru.tinkoff.fintech.homework.lesson6.phonebook.service
+package ru.tinkoff.fintech.homework.lesson7.phonebook.service
 
 import org.springframework.stereotype.Service
-import ru.tinkoff.fintech.homework.lesson6.phonebook.model.Contact
-import ru.tinkoff.fintech.homework.lesson6.phonebook.model.ContactInfo
+import ru.tinkoff.fintech.homework.lesson7.phonebook.model.Contact
+import ru.tinkoff.fintech.homework.lesson7.phonebook.model.ContactInfo
 
 @Service
-class ContactService(private val phoneBookClient: PhoneBookClient) {
+class ContactService(private val phoneBookClient: ContactsRepository) {
     fun getContacts(page: Int, size: Int): List<Contact> {
         require(page >= 0 && size > 0)
         return phoneBookClient.getContacts(page, size)
