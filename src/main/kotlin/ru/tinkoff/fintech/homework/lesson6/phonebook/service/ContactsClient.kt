@@ -7,7 +7,7 @@ import ru.tinkoff.fintech.homework.lesson6.phonebook.model.Contact
 import ru.tinkoff.fintech.homework.lesson6.phonebook.model.ContactInfo
 
 @Service
-class PhoneBookClient(
+class ContactsClient(
     private val restTemplate: RestTemplate,
     @Value("phone.book.address") private val phoneBookAddress: String
 ) {

@@ -20,17 +20,35 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
 import org.springframework.util.LinkedMultiValueMap
 import ru.tinkoff.fintech.homework.lesson6.phonebook.model.Contact
 import ru.tinkoff.fintech.homework.lesson6.phonebook.model.ContactInfo
-import ru.tinkoff.fintech.homework.lesson6.phonebook.service.PhoneBookClient
+import ru.tinkoff.fintech.homework.lesson6.phonebook.service.ContactsClient
 import kotlin.math.min
 
 @SpringBootTest
 @AutoConfigureMockMvc
 class PhoneBookTest @Autowired constructor(private val mockMvc: MockMvc, private val objectMapper: ObjectMapper) {
     @MockkBean
-    private lateinit var phoneBookClient: PhoneBookClient
+    private lateinit var phoneBookClient: ContactsClient
+
+    private val contactsListTemplate = listOf(
+        Contact(1, "Иван", "Сергеев", "+79991234567"),
+        Contact(2, "Ольга", "Шемякина", "+79113442312"),
+        Contact(3, "Сергей", "Ландау", "+79591236812"),
+        Contact(4, "Иван", "Носков", "+79235321342"),
+        Contact(5, "Афанасий", "Беспалов", "+79194364845"),
+        Contact(6, "Никита", "Алексеев", "+7932504358"),
+        Contact(7, "112", "", "112"),
+        Contact(8, "Олег", "Галкин", "+79750123712"),
+        Contact(9, "Наталья", "Алексеева", "+79012003765"),
+        Contact(10, "Мария", "Сергеева", "+79671243201"),
+        Contact(11, "Заказ пиццы", "", "+78003020060"),
+    )
+
+    private lateinit var contactsList: MutableList<Contact>
 
     @BeforeEach
     private fun initMock() {
+        contactsList = contactsListTemplate.toMutableList()
+
         every { phoneBookClient.getContacts(any(), any()) } answers {
             val n = contactsList.size
             val page = firstArg<Int>()
@@ -44,7 +62,7 @@ class PhoneBookTest @Autowired constructor(private val mockMvc: MockMvc, private
         every { phoneBookClient.getContact(any()) } answers { contactsList.find { it.id == firstArg() } }
         every { phoneBookClient.addContact(any()) } answers {
             val id = contactsList.maxOf { it.id } + 1
-            val contact = Contact(id, firstArg())
+            val contact = Contact(id = id, contactInfo = firstArg())
             contactsList.add(contact)
             contact
         }
@@ -53,7 +71,11 @@ class PhoneBookTest @Autowired constructor(private val mockMvc: MockMvc, private
             val page = secondArg<Int>()
             val size = thirdArg<Int>()
             contactsList
-                .filter { query in it.firstName.lowercase() || query in it.lastName.lowercase() || query in it.phone }
+                .filter {
+                    query in it.firstName.toString().lowercase()
+                            || query in it.lastName.toString().lowercase()
+                            || query in it.phone.toString()
+                }
                 .let {
                     val n = it.size
                     val from = min(n, page * size)
@@ -133,14 +155,14 @@ class PhoneBookTest @Autowired constructor(private val mockMvc: MockMvc, private
 
     @Test
     fun `получить контакт по id`() {
-        val contact: Contact = getContact(contactId = 8).readResponse()
+        val contact: Contact = getContact(contactId = 7).readResponse()
 
-        assertEquals(Contact(8, "112", "", "112"), contact)
+        assertEquals(Contact(7, "112", "", "112"), contact)
     }
 
     @Test
     fun `получить с несуществующим id`() {
-        val response = getContact(contactId = 1)
+        val response = getContact(contactId = 15)
 
         response.is4xx()
     }
@@ -168,7 +190,7 @@ class PhoneBookTest @Autowired constructor(private val mockMvc: MockMvc, private
 
         assertEquals(
             listOf(
-                Contact(7, "Никита", "Алексеев", "+7932504358")
+                Contact(6, "Никита", "Алексеев", "+7932504358")
             ),
             contacts
         )
@@ -180,9 +202,9 @@ class PhoneBookTest @Autowired constructor(private val mockMvc: MockMvc, private
 
         assertEquals(
             listOf(
-                Contact(0, "Иван", "Сергеев", "+79991234567"),
+                Contact(1, "Иван", "Сергеев", "+79991234567"),
                 Contact(3, "Сергей", "Ландау", "+79591236812"),
-                Contact(12, "Мария", "Сергеева", "+79671243201"),
+                Contact(10, "Мария", "Сергеева", "+79671243201"),
             ),
             contacts
         )
@@ -195,7 +217,7 @@ class PhoneBookTest @Autowired constructor(private val mockMvc: MockMvc, private
         assertEquals(
             listOf(
                 Contact(2, "Ольга", "Шемякина", "+79113442312"),
-                Contact(8, "112", "", "112"),
+                Contact(7, "112", "", "112"),
             ),
             contacts
         )
@@ -207,8 +229,8 @@ class PhoneBookTest @Autowired constructor(private val mockMvc: MockMvc, private
 
         assertEquals(
             listOf(
-                Contact(12, "Мария", "Сергеева", "+79671243201"),
-                Contact(14, "Заказ пиццы", "", "+78003020060"),
+                Contact(10, "Мария", "Сергеева", "+79671243201"),
+                Contact(11, "Заказ пиццы", "", "+78003020060"),
             ),
             contacts
         )
@@ -220,11 +242,11 @@ class PhoneBookTest @Autowired constructor(private val mockMvc: MockMvc, private
 
         assertEquals(
             listOf(
-                Contact(0, "Иван", "Сергеев", "+79991234567"),
+                Contact(1, "Иван", "Сергеев", "+79991234567"),
                 Contact(2, "Ольга", "Шемякина", "+79113442312"),
                 Contact(3, "Сергей", "Ландау", "+79591236812"),
-                Contact(5, "Иван", "Носков", "+79235321342"),
-                Contact(6, "Афанасий", "Беспалов", "+79194364845"),
+                Contact(4, "Иван", "Носков", "+79235321342"),
+                Contact(5, "Афанасий", "Беспалов", "+79194364845"),
             ),
             contacts
         )
@@ -293,18 +315,4 @@ class PhoneBookTest @Autowired constructor(private val mockMvc: MockMvc, private
         LinkedMultiValueMap<String, String>().apply {
             params.forEach { (key, value) -> if (value != null) add(key, value.toString()) }
         }
-
-    private val contactsList = mutableListOf(
-        Contact(0, "Иван", "Сергеев", "+79991234567"),
-        Contact(2, "Ольга", "Шемякина", "+79113442312"),
-        Contact(3, "Сергей", "Ландау", "+79591236812"),
-        Contact(5, "Иван", "Носков", "+79235321342"),
-        Contact(6, "Афанасий", "Беспалов", "+79194364845"),
-        Contact(7, "Никита", "Алексеев", "+7932504358"),
-        Contact(8, "112", "", "112"),
-        Contact(10, "Олег", "Глакин", "+79750123712"),
-        Contact(11, "Наталья", "Алексеева", "+79012003765"),
-        Contact(12, "Мария", "Сергеева", "+79671243201"),
-        Contact(14, "Заказ пиццы", "", "+78003020060"),
-    )
 }
