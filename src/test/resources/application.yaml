@@ -1,0 +1,6 @@
+spring:
+  application.name: phone-book
+  profiles.active: test
+server.port: 9000
+
+phone.book.address: http://localhost:9001
