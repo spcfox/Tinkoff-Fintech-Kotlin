@@ -1,4 +1,4 @@
-package ru.tinkoff.fintech.homework.lesson7.phonebook
+package ru.tinkoff.fintech.homework.lesson7.phonebook.controller
 
 import org.springframework.web.bind.annotation.*
 import ru.tinkoff.fintech.homework.lesson7.phonebook.model.Contact
@@ -7,7 +7,7 @@ import ru.tinkoff.fintech.homework.lesson7.phonebook.service.ContactsService
 
 @RestController
 @RequestMapping("/book")
-class PhoneBook(private val contactService: ContactsService) {
+class PhoneBookController(private val contactService: ContactsService) {
     @GetMapping("/contacts")
     fun getContacts(
         @RequestParam(defaultValue = "0") page: Int,

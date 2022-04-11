@@ -7,7 +7,7 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest
 import ru.tinkoff.fintech.homework.lesson7.phonebook.model.Contact
 import ru.tinkoff.fintech.homework.lesson7.phonebook.model.ContactInfo
 import ru.tinkoff.fintech.homework.lesson7.phonebook.service.ContactDao
-import ru.tinkoff.fintech.homework.lesson7.phonebook.service.JpaContactsRepository
+import ru.tinkoff.fintech.homework.lesson7.phonebook.repository.JpaContactsRepository
 
 @DataJpaTest
 class JpaContactRepositoryTest @Autowired constructor(dao: ContactDao) {

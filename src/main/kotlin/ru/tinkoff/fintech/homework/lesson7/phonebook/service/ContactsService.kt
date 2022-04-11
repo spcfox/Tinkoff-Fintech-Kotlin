@@ -3,6 +3,7 @@ package ru.tinkoff.fintech.homework.lesson7.phonebook.service
 import org.springframework.stereotype.Service
 import ru.tinkoff.fintech.homework.lesson7.phonebook.model.Contact
 import ru.tinkoff.fintech.homework.lesson7.phonebook.model.ContactInfo
+import ru.tinkoff.fintech.homework.lesson7.phonebook.repository.ContactsRepository
 
 @Service
 class ContactsService(private val phoneBookClient: ContactsRepository) {

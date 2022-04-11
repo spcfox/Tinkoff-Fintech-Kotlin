@@ -1,4 +1,4 @@
-package ru.tinkoff.fintech.homework.lesson7.phonebook.service
+package ru.tinkoff.fintech.homework.lesson7.phonebook.repository
 
 import org.springframework.context.annotation.Primary
 import org.springframework.data.domain.PageRequest
@@ -6,6 +6,7 @@ import org.springframework.orm.jpa.JpaObjectRetrievalFailureException
 import org.springframework.stereotype.Service
 import ru.tinkoff.fintech.homework.lesson7.phonebook.model.Contact
 import ru.tinkoff.fintech.homework.lesson7.phonebook.model.ContactInfo
+import ru.tinkoff.fintech.homework.lesson7.phonebook.service.ContactDao
 
 @Primary
 @Service

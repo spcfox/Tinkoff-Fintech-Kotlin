@@ -1,4 +1,4 @@
-package ru.tinkoff.fintech.homework.lesson7.phonebook.service
+package ru.tinkoff.fintech.homework.lesson7.phonebook.repository
 
 import org.springframework.stereotype.Service
 import ru.tinkoff.fintech.homework.lesson7.phonebook.model.Contact

@@ -1,6 +1,30 @@
 spring:
-  application.name: phone-book
-  profiles.active: test
-server.port: 9000
+  application:
+    name: phone-book
+  profiles:
+    active: test
+  datasource:
+    url: jdbc:h2:mem:testdb
+    driverClassName: org.h2.Driver
+    username: sa
+    password: password
+  liquibase:
+    change-log: classpath:/db/changelog/db.changelog-master.xml
+  jpa:
+    database-platform: org.hibernate.dialect.H2Dialect
+    #    show-sql: true
 
-phone.book.address: http://localhost:9001
+server:
+  port: 9000
+
+contacts-client:
+  url: http://localhost:9001
+  paths:
+    get: /contacts
+    get-by-id: /contact
+    add: /contact/add
+    find: /contact/find
+
+rest-template:
+  connect-timeout-in-seconds: 30
+  read-timeout-in-seconds: 60

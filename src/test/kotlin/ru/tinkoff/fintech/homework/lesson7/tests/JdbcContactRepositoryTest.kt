@@ -7,7 +7,7 @@ import org.springframework.boot.test.autoconfigure.jdbc.JdbcTest
 import org.springframework.jdbc.core.JdbcTemplate
 import ru.tinkoff.fintech.homework.lesson7.phonebook.model.Contact
 import ru.tinkoff.fintech.homework.lesson7.phonebook.model.ContactInfo
-import ru.tinkoff.fintech.homework.lesson7.phonebook.service.JdbcContactsRepository
+import ru.tinkoff.fintech.homework.lesson7.phonebook.repository.JdbcContactsRepository
 import javax.sql.DataSource
 
 @JdbcTest

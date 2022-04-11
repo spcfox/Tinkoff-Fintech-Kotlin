@@ -1,4 +1,4 @@
-package ru.tinkoff.fintech.homework.lesson7.phonebook.service
+package ru.tinkoff.fintech.homework.lesson7.phonebook.repository
 
 import org.springframework.dao.EmptyResultDataAccessException
 import org.springframework.jdbc.core.JdbcTemplate
@@ -20,17 +20,20 @@ class JdbcContactsRepository(private val jdbcTemplate: JdbcTemplate) : ContactsR
                 phone = rs.getString("phone")
             )
         }
+
+        private val getContactsQuery = "select * from contacts order by contact_id offset ? rows fetch next ? rows only"
+        private val getContactQuery = "select * from contacts where contact_id = ?"
+        private val addContactQuery = "insert into contacts(first_name, last_name, phone) values (?, ?, ?)"
+        private val findQuery = "select * from contacts" +
+                " where lower(first_name) like ? or lower(last_name) like ? or phone like ?" +
+                "order by contact_id offset ? rows fetch next ? rows only"
     }
 
-    override fun getContacts(page: Int, size: Int): List<Contact> = jdbcTemplate.query(
-        "select * from contacts order by contact_id offset ? rows fetch next ? rows only",
-        rowMapper,
-        page * size,
-        size
-    )
+    override fun getContacts(page: Int, size: Int): List<Contact> =
+        jdbcTemplate.query(getContactsQuery, rowMapper, page * size, size)
 
     override fun getContact(contactId: Int): Contact? = try {
-         jdbcTemplate.queryForObject("select * from contacts where contact_id = ?", rowMapper, contactId)
+         jdbcTemplate.queryForObject(getContactQuery, rowMapper, contactId)
     } catch (e: EmptyResultDataAccessException) {
         null
     }
@@ -41,8 +44,7 @@ class JdbcContactsRepository(private val jdbcTemplate: JdbcTemplate) : ContactsR
             { connection ->
                 connection
                     .prepareStatement(
-                        "insert into contacts(first_name, last_name, phone) values (?, ?, ?)",
-                        Statement.RETURN_GENERATED_KEYS
+                        addContactQuery, Statement.RETURN_GENERATED_KEYS
                     ).apply {
                         setString(1, contactInfo.firstName)
                         setString(2, contactInfo.lastName)
@@ -59,9 +61,7 @@ class JdbcContactsRepository(private val jdbcTemplate: JdbcTemplate) : ContactsR
     override fun find(query: String, page: Int, size: Int): List<Contact> {
         val template = "%${query.lowercase()}%"
         return jdbcTemplate.query(
-            "select * from contacts" +
-                    " where lower(first_name) like ? or lower(last_name) like ? or phone like ?" +
-                    "order by contact_id offset ? rows fetch next ? rows only",
+            findQuery,
             rowMapper,
             template,
             template,
