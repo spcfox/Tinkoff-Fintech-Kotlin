@@ -1,6 +1,19 @@
 spring:
-  application.name: phone-book
-  profiles.active: test
-server.port: 9000
+  application:
+    name: phone-book
+  profiles:
+    active: test
+server:
+  port: 9000
 
-phone.book.address: http://localhost:9001
+contacts-client:
+  url: http://localhost:9001
+  paths:
+    get: /contacts
+    get-by-id: /contact
+    add: /contact/add
+    find: /contact/find
+
+rest-template:
+  connect-timeout-in-seconds: 30
+  read-timeout-in-seconds: 60

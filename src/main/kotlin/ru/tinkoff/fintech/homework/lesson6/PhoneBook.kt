@@ -1,11 +1,13 @@
 package ru.tinkoff.fintech.homework.lesson6
 
 import org.springframework.boot.autoconfigure.SpringBootApplication
+import org.springframework.boot.context.properties.ConfigurationPropertiesScan
 import org.springframework.boot.runApplication
 
 @SpringBootApplication
-class Application
+@ConfigurationPropertiesScan
+class PhoneBook
 
 fun main() {
-    runApplication<Application>()
+    runApplication<PhoneBook>()
 }

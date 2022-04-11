@@ -1,6 +1,7 @@
 package ru.tinkoff.fintech.homework.lesson6.phonebook.service
 
 import org.springframework.stereotype.Service
+import ru.tinkoff.fintech.homework.lesson6.phonebook.client.ContactsClient
 import ru.tinkoff.fintech.homework.lesson6.phonebook.model.Contact
 import ru.tinkoff.fintech.homework.lesson6.phonebook.model.ContactInfo
 

@@ -18,9 +18,9 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
 import org.springframework.util.LinkedMultiValueMap
+import ru.tinkoff.fintech.homework.lesson6.phonebook.client.ContactsClient
 import ru.tinkoff.fintech.homework.lesson6.phonebook.model.Contact
 import ru.tinkoff.fintech.homework.lesson6.phonebook.model.ContactInfo
-import ru.tinkoff.fintech.homework.lesson6.phonebook.service.ContactsClient
 import kotlin.math.min
 
 @SpringBootTest
@@ -303,8 +303,6 @@ class PhoneBookTest @Autowired constructor(private val mockMvc: MockMvc, private
         )
 
     private fun ResultActions.is4xx() = andExpect(status().is4xxClientError)
-
-    private fun ResultActions.is5xx() = andExpect(status().is5xxServerError)
 
     private inline fun <reified T> ResultActions.readResponse(): T = this
         .andExpect(status().isOk)

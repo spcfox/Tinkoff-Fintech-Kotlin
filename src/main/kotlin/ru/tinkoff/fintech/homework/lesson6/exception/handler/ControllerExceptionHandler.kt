@@ -1,4 +1,4 @@
-package ru.tinkoff.fintech.homework.lesson6.configuration
+package ru.tinkoff.fintech.homework.lesson6.exception.handler
 
 import org.slf4j.LoggerFactory
 import org.springframework.http.HttpStatus
