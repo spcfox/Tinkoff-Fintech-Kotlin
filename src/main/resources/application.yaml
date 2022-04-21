@@ -1,0 +1,22 @@
+spring:
+  application:
+    name: my-users-app
+  profiles:
+    active: dev
+  datasource:
+    url: jdbc:h2:mem:testdb
+    driverClassName: org.h2.Driver
+    username: sa
+    password: password
+  liquibase:
+    change-log: classpath:/db/changelog/db.changelog-master.xml
+#  jpa:
+#    database-platform: org.hibernate.dialect.H2Dialect
+#    show-sql: true
+
+server:
+  port: 9000
+
+unsplash-client:
+  url: https://source.unsplash.com
+  get-random-image: /random/{width}x{height}
