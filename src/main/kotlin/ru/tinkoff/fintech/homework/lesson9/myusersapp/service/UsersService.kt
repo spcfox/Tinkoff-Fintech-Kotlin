@@ -3,6 +3,7 @@ package ru.tinkoff.fintech.homework.lesson9.myusersapp.service
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import org.springframework.dao.DataIntegrityViolationException
 import org.springframework.stereotype.Service
 import ru.tinkoff.fintech.homework.lesson9.myusersapp.client.UnsplashClient
@@ -42,7 +43,7 @@ class UsersService(
     fun newRandomImage(userId: Int) {
         val user = usersRepository.getUser(userId)
         requireNotNull(user) { "User with id $userId not found" }
-        CoroutineScope(Dispatchers.IO).launch {
+        CoroutineScope(Dispatchers.Default).launch {
             setRandomImage(userId)
         }
     }
@@ -59,7 +60,9 @@ class UsersService(
 
     private suspend fun setRandomImage(userId: Int) {
         val imageData = unsplashClient.getRandomImage(200, 200)
-        val imageId = imagesRepository.addImage(imageData)
-        usersRepository.setImage(userId, imageId)
+        withContext(Dispatchers.IO) {
+            val imageId = imagesRepository.addImage(imageData)
+            usersRepository.setImage(userId, imageId)
+        }
     }
 }
