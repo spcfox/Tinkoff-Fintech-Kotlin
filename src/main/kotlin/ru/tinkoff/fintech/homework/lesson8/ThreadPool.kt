@@ -3,18 +3,17 @@ package ru.tinkoff.fintech.homework.lesson8
 import java.util.concurrent.*
 
 class ThreadPool(nThreads: Int) : Executor {
-    init {
-        require(nThreads > 0) { "Number of threads must be positive" }
-    }
-
-    private val threads: Array<Thread> = Array(nThreads) { WorkerThread() }
-    private val tasks: BlockingQueue<Runnable> = LinkedBlockingQueue()
+    private val threads: Array<Thread>
+    private val tasks: BlockingQueue<Runnable>
     @Volatile var isShutdown = false
         private set
 
     private val endTask: Runnable = Runnable { addEnd() }
 
     init {
+        require(nThreads > 0) { "Number of threads must be positive" }
+        tasks = LinkedBlockingQueue()
+        threads = Array(nThreads) { WorkerThread() }
         threads.forEach { it.start() }
     }
 
