@@ -15,7 +15,7 @@ class EventListener(
     @JmsListener(destination = "events")
     fun consume(eventId: Int) {
         val event = eventRepository.getById(eventId)
-        if (event.status == EventStatus.IN_PROCESS) {
+        if (event.status == EventStatus.NEW || event.status == EventStatus.IN_PROCESS) {
             try {
                 val notificationConsume = notificationUtils.getNotificationConsume(event)
                 notificationConsume.sendNotification(event)

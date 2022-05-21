@@ -14,10 +14,10 @@ class EventHandler(val jmsTemplate: JmsTemplate, val eventRepository: EventJpaRe
         val newEvents = eventRepository.getAllByStatus(EventStatus.NEW)
         newEvents.forEach { event ->
             try {
-                eventRepository.updateStatus(event.id, EventStatus.IN_PROCESS)
                 jmsTemplate.send("events") { session ->
                     session.createObjectMessage(event.id)
                 }
+                eventRepository.updateStatus(event.id, EventStatus.NEW, EventStatus.IN_PROCESS)
             } catch (e: Exception) {
                 eventRepository.updateStatus(event.id, EventStatus.ERROR)
                 throw e
